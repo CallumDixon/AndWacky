@@ -53,12 +53,12 @@ const App = ({}) => {
 <div class="content"></div>
       <div className="row">
         <div className="col-md-12 mt-4 mb-4">
-          <h6>Welcome, {username} to room {room}</h6>
+          <h1>Welcome, {username} to room {room}</h1>
         </div>
       </div>
       <div className="row">
         <div className="col-md-8">
-          <h6>Chat</h6>
+          <h3>Chat</h3>
           <div id="messages">
             {messages.map(({ user, date, text }, index) => (
               <div key={index} className="row mb-2">
@@ -86,12 +86,7 @@ const App = ({}) => {
               </span>
             </div>
           </form>
-        </div>
-        <div >
-          <a id="premium" href="http://localhost:1234/">
-          Want to scroll through messages? Unlock this with the premium pass for 4.99 a month!
-          </a>
-        </div>
+        </div>        
         <div className="col-md-4">
           <h6>ANDIs</h6>
           <ul id="users">
@@ -99,6 +94,11 @@ const App = ({}) => {
                 <li key={id}>{name}</li>
             ))}
           </ul>
+        </div>
+        <div >
+          <a id="premium" href="http://localhost:1234/">
+          Want to scroll through messages? Unlock this with the premium pass for 4.99 a month!
+          </a>
         </div>
       </div>
     </div>
