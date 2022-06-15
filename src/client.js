@@ -7,7 +7,8 @@ import ReactDOM from "react-dom";
 import { useEffect, useState } from "react";
 import moment from "moment";
 
-const username = prompt("Hello ANDi, what is your AND Title?");
+const room = prompt("Hello ANDi, do you know which room you want?");
+const username = prompt("And what is your AND Title?");
 
 const socket = io("http://localhost:3000", {
   transports: ["websocket", "polling"]
@@ -20,19 +21,15 @@ const App = ({}) => {
 
   useEffect(() => {
     socket.on("connect", () => {
-      socket.emit("username", username);
+      socket.emit("user", {room, username});
     });
 
-    socket.on("users", users => {
+    socket.on("users" + room, users => {
       setUsers(users);
     });
 
-    socket.on("message", message => {
+    socket.on("message" + room, message => {
       setMessages(messages => [...messages, message]);
-    });
-
-    socket.on("connected", user => {
-      setUsers(users => [...users, user]);
     });
 
     socket.on("disconnected", id => {
@@ -44,7 +41,7 @@ const App = ({}) => {
 
   const submit = event => {
     event.preventDefault();
-    socket.emit("send", message);
+    socket.emit("send", {room, message});
     setMessage("");
   };
 
@@ -56,7 +53,7 @@ const App = ({}) => {
 <div class="content"></div>
       <div className="row">
         <div className="col-md-12 mt-4 mb-4">
-          <h6>Welcome, {username}</h6>
+          <h6>Welcome, {username} to room {room}</h6>
         </div>
       </div>
       <div className="row">
@@ -94,7 +91,7 @@ const App = ({}) => {
           <h6>ANDIs</h6>
           <ul id="users">
             {users.map(({ name, id }) => (
-              <li key={id}>{name}</li>
+                <li key={id}>{name}</li>
             ))}
           </ul>
         </div>
