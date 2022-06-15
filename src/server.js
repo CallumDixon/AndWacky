@@ -2,29 +2,29 @@ const server = require("http").createServer();
 const io = require("socket.io")(server, {
   transports: ["websocket", "polling"]
 });
-const users = {};
+const rooms = {};
 io.on("connection", client => {
-  client.on("username", username => {
+  client.on("user", (payload) => {
     const user = {
-      name: username,
+      name: payload.username,
       id: client.id
     };
-    users[client.id] = user;
-    io.emit("connected", user);
-    io.emit("users", Object.values(users));
+    if(!rooms[payload.room]){
+      rooms[payload.room] = {};
+    }
+    rooms[payload.room][client.id] = user;
+    io.emit("users" + payload.room, Object.values(rooms[payload.room]));
   });
 
-  client.on("send", message => {
-    io.emit("message", {
-      text: message,
+  client.on("send", (payload) => {
+    io.emit("message" + payload.room, {
+      text: payload.message,
       date: new Date().toISOString(),
-      user: users[client.id]
+      user: rooms[payload.room][client.id]
     });
   });
 
   client.on("disconnect", () => {
-    const username = users[client.id];
-    delete users[client.id];
     io.emit("disconnected", client.id);
   });
 });
