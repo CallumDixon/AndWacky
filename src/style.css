@@ -5,6 +5,11 @@
   padding: 20px;
 }
 
+#premium {
+  background-color: gold;
+  width: 65%;
+}
+
 input {
   width: 100%;
 }

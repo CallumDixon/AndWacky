@@ -87,6 +87,11 @@ const App = ({}) => {
             </div>
           </form>
         </div>
+        <div >
+          <a id="premium" href="http://localhost:1234/">
+          Want to scroll through messages? Unlock this with the premium pass for 4.99 a month!
+          </a>
+        </div>
         <div className="col-md-4">
           <h6>ANDIs</h6>
           <ul id="users">
